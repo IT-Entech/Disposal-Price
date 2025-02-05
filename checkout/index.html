@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Checkout example · Bootstrap v5.0</title>
+    <link href="../assets/img/LogoEnt.png" rel="icon">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/checkout/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+        
+      }
+      #truckImage {
+  transition: opacity 0.3s ease;
+}
+
+.show-image {
+  display: block;
+  opacity: 1;
+}
+
+.hide-image {
+  display: none;
+  opacity: 0;
+}
+.form-check-horizontal {
+    display: inline-block;
+    margin-right: 20px; /* Add spacing between options */
+  }
+  .form-check-label {
+    margin-left: 5px; /* Space between radio button and label */
+  }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="../assets/img/entechnology.png" alt="" width="200" height="57">
+      <h2>โปรแกรมประมาณค่าบริการกำจัดกากอุตสาหกรรม</h2>
+      <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+    </div>
+
+    <div class="row g-5">
+<!-- Spinner Modal -->
+<div class="modal fade" id="staticBackdropLive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLiveLabel">Processing...</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center" id="modalBodyContent">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Calculating...</p>
+      </div>
+      <div class="modal-footer" id="modalFooterContent" style="display: none;">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <div class="col-md-8 col-lg-12">
+        <label for="googleMapUrl">ใส่ลิงค์ Google Map ที่อยู่ของท่าน:</label>
+        <input type="text" id="googleMapUrl" placeholder="วางลิงค์ที่นี่">
+        <button onclick="calculateDistance()">คำนวณระยะทาง</button>
+<p id="coordinatesResult"></p>
+        
+        <h4 class="mb-3">Billing address</h4>
+        <form class="needs-validation" novalidate>
+          <div class="row g-3">
+            <div class="col-sm-5">
+              <label for="Wastename" class="form-label">ชื่อของเสีย</label>
+              <input type="text" class="form-control" id="Wastename" placeholder="โปรดระบุชื่อ Waste ที่ท่านต้องการกำจัด" value="" required>
+              <div class="invalid-feedback">
+                Valid Waste name is required.
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <label for="WasteCode" class="form-label">รหัสของเสีย</label>
+              <select class="form-select" id="WasteCode" required>
+                <option value="">Choose...</option>
+              </select>
+              <div class="invalid-feedback">
+                Valid last name is required.
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <label for="Weight-price" class="form-label">น้ำหนัก (ตัน)</label>
+              <input type="text" class="form-control" id="Weight-price" placeholder="" value="" required>
+              <input type="hidden" class="form-control" id="total-before-vat" placeholder="" value="">
+              <div class="invalid-feedback">
+                Valid last name is required.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="username" class="form-label">Company Name</label>
+              <div class="input-group has-validation">
+                <span class="input-group-text">@</span>
+                <input type="text" class="form-control" id="username" placeholder="Username" required>
+              <div class="invalid-feedback">
+                  Your username is required.
+                </div>
+              </div>
+            </div>
+            <!--div class="col-12">
+              <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+              <input type="email" class="form-control" id="email" placeholder="you@example.com">
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+            </div-->
+
+            <div class="col-md-5">
+              <label for="country" class="form-label">Country</label>
+              <select class="form-select" id="country" required>
+                <option value="">Choose...</option>
+                <option>United States</option>
+              </select>
+              <div class="invalid-feedback">
+                Please select a valid country.
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="state" class="form-label">State</label>
+              <select class="form-select" id="state" required>
+                <option value="">Choose...</option>
+                <option>California</option>
+              </select>
+              <div class="invalid-feedback">
+                Please provide a valid state.
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="distanceRate" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="distanceRate" placeholder="" required>
+              <div class="invalid-feedback">
+                Zip code required.
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="same-address">
+            <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
+          </div>
+
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="save-info">
+            <label class="form-check-label" for="save-info">Save this information for next time</label>
+          </div>
+
+          <hr class="my-4">
+
+          <h4 class="mb-3">ประเภทรถ (ชี้ประเภทรถเพื่อดูภาพประกอบ)</h4>
+
+          <div class="my-3">
+            <div class="form-check">
+              <input id="truck_small" name="paymentMethod" type="radio" class="form-check-input"  required>
+              <label class="form-check-label" for="truck_small">รถบรรทุกเล็ก (น้ำหนักไม่เกิน 2 ตัน)</label>
+              <img id="truckImage" src="../assets/img/jumbo.jpg" alt="รถบรรทุกเล็ก" style="display:none; width: 200px;"/>
+            </div>
+            <div class="form-check">
+              <input id="truck_large" name="paymentMethod" type="radio" class="form-check-input" required>
+              <label class="form-check-label" for="truck_large">รถบรรทุก</label>
+              <img id="truckImageLarge" src="../assets/img/single-Truck.jpg" alt="รถบรรทุก" style="display:none; width: 200px;"/>
+            </div>
+            <!-- Hidden options for choosing between a single truck or truck with trailer -->
+            <div id="truckOptions" style="display:none;">
+              <div class="form-check">
+                <input id="single_truck" name="truckType" type="radio" class="form-check-input" required>
+                <label class="form-check-label" for="single_truck">รถเดี่ยว</label>
+              </div>
+              <!-- Hidden options for Rolloff, Vacuum, and Crane -->
+              <div id="singleTruckOptions" style="display:none; margin-top: 10px;">
+                <div class="form-check-horizontal">
+                  <input id="single_rolloff" name="singleTruckOption" type="radio" class="form-check-input" required>
+                  <label class="form-check-label" for="single_rolloff">Rolloff</label>
+                </div>
+                <div class="form-check-horizontal">
+                  <input id="single_vacuum" name="singleTruckOption" type="radio" class="form-check-input" required>
+                  <label class="form-check-label" for="single_vacuum">Vacuum</label>
+                </div>
+                <div class="form-check-horizontal">
+                  <input id="single_crane" name="singleTruckOption" type="radio" class="form-check-input" required>
+                  <label class="form-check-label" for="single_crane">Crane</label>
+                </div>
+              </div>
+              <div class="form-check">
+                <input id="trailer_truck" name="truckType" type="radio" class="form-check-input" required>
+                <label class="form-check-label" for="trailer_truck">รถพ่วง</label>
+              </div>
+               <!-- Hidden options for Rolloff, Vacuum, and Crane -->
+               <div id="trailerTruckOptions" style="display:none; margin-top: 10px;">
+                <div class="form-check-horizontal">
+                  <input id="trailer_rolloff" name="trailerTruckOption" type="radio" class="form-check-input" required>
+                  <label class="form-check-label" for="trailer_rolloff">Rolloff</label>
+                </div>
+                <div class="form-check-horizontal">
+                  <input id="trailer_vacuum" name="trailerTruckOption" type="radio" class="form-check-input" required>
+                  <label class="form-check-label" for="trailer_vacuum">Vacuum</label>
+                </div>
+                <div class="form-check-horizontal">
+                  <input id="trailer_crane" name="trailerTruckOption" type="radio" class="form-check-input" required>
+                  <label class="form-check-label" for="trailer_crane">Crane</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--div class="row gy-3">
+            <div class="col-md-6">
+              <label for="cc-name" class="form-label">Name on card</label>
+              <input type="text" class="form-control" id="cc-name" placeholder="" required>
+              <small class="text-muted">Full name as displayed on card</small>
+              <div class="invalid-feedback">
+                Name on card is required
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="cc-number" class="form-label">Credit card number</label>
+              <input type="text" class="form-control" id="cc-number" placeholder="" required>
+              <div class="invalid-feedback">
+                Credit card number is required
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-expiration" class="form-label">Expiration</label>
+              <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+              <div class="invalid-feedback">
+                Expiration date required
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-cvv" class="form-label">CVV</label>
+              <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+              <div class="invalid-feedback">
+                Security code required
+              </div>
+            </div>
+          </div-->
+
+          <hr class="my-4">
+
+          <button class="w-100 btn btn-primary btn-lg" id="calculateButton" type="submit">สนใจใช้บริการกับเรากรุณา **click**</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017–2021 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>
+
+
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+      <script src="form-validation.js"></script>
+      <script src="calculator.js"></script>
+      <!--script src="API-Distance.js"></script-->
+     
+        <!--script 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEb-3ICrtUlo5JtHx0craCNS4yHCkJ95M&libraries=places"
+        async
+        defer>
+      </script-->
+  </body>
+
+</html>
