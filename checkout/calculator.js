@@ -29,9 +29,17 @@ const totalBeforeVatElement = document.getElementById('total-before-vat');
 const productnameElement = document.getElementById('productname');
 const calculateButton = document.getElementById('calculateButton');
 const labelSmallTruck = document.querySelector('label[for="truck_small"]');
-const labelLargeTruck = document.querySelector('label[for="truck_large"]');
+const labelLargeTruck = document.querySelector('label[for="single_rolloff"]');
+const labelLargeVacuum = document.querySelector('label[for="single_vacuum"]');
+const labelLargeCrane = document.querySelector('label[for="single_crane"]');
+const labelLargeTrailer = document.querySelector('label[for="trailer_rolloff"]');
+const labelLargeTV = document.querySelector('label[for="trailer_vacuum"]');
 const imageSmallTruck = document.getElementById('truckImage');
 const imageLargeTruck = document.getElementById('truckImageLarge');
+const imageLargeVacuum = document.getElementById('VacuumImageLarge');
+const imageLargeCrane = document.getElementById('CraneImageLarge');
+const imageLargeTrailer= document.getElementById('ImageTrailer');
+const imageLargeTV = document.getElementById('VacuumImageTrailer');
 
 let Disposalprice = 0; // Global variable for Disposal price
   let consumptionRate = 0; // Global variable for consumption rate
@@ -355,4 +363,12 @@ labelSmallTruck.addEventListener('mouseenter', () => (imageSmallTruck.style.disp
 labelSmallTruck.addEventListener('mouseleave', () => (imageSmallTruck.style.display = 'none'));
 labelLargeTruck.addEventListener('mouseenter', () => (imageLargeTruck.style.display = 'block'));
 labelLargeTruck.addEventListener('mouseleave', () => (imageLargeTruck.style.display = 'none'));
+labelLargeVacuum.addEventListener('mouseenter', () => (imageLargeVacuum.style.display = 'block'));
+labelLargeVacuum.addEventListener('mouseleave', () => (imageLargeVacuum.style.display = 'none'));
+labelLargeCrane.addEventListener('mouseenter', () => (imageLargeCrane.style.display = 'block'));
+labelLargeCrane.addEventListener('mouseleave', () => (imageLargeCrane.style.display = 'none'));
+labelLargeTrailer.addEventListener('mouseenter', () => (imageLargeTrailer.style.display = 'block'));
+labelLargeTrailer.addEventListener('mouseleave', () => (imageLargeTrailer.style.display = 'none'));
+labelLargeTV.addEventListener('mouseenter', () => (imageLargeTV.style.display = 'block'));
+labelLargeTV.addEventListener('mouseleave', () => (imageLargeTV.style.display = 'none'));
 
