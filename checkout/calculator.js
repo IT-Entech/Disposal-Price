@@ -82,7 +82,7 @@ function updateConsumptionRate() {
     truckSmall: { fuelRate: 35, divisor: 10, fixcost: { smalltrans: 2500, Tech: 800, TechAssist: 550 }, 
     allowances: calculateAllowances(distance, [200, 500, 700, 1200, 1700, 2200], { 
     TechAllowance: [200, 200, 200, 850, 950, 1050, 1150], 
-    AssistTechAllowance: [150, 150, 150, 700, 800, 900, 1000] }) },
+    AssistTechAllowance: [150, 150, 150, 750, 800, 900, 1000] }) },
 
     single_rolloff: { fuelRate: 35, divisor: 2.7, fixcost: { bigtrans: 4200, Driver: 600, Assist: 550 }, 
     allowances: calculateAllowances(distance, [200, 500, 700, 1200, 1700, 2200], { 
