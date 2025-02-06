@@ -3,7 +3,7 @@ const config = {
   WasteDisposal: 600,
   Fuel: 35, // Fuel Rate
   Riskvalue: 1.05,
-  Distance: 126,
+  Distance: 2202,
   IncomeRate: 2.5,
 };
 
@@ -164,11 +164,18 @@ function calculateAllowances(distance, thresholds, allowanceValues) {
       keys.forEach(key => {
         allowances[key] = allowanceValues[key][i];
       });
-      break;
+      return allowances; // ออกจากลูปเมื่อเจอระยะที่ตรงเงื่อนไข
     }
   }
+
+  // ถ้า distance มากกว่า 2200 ให้ใช้ค่า allowance ที่สุดท้ายใน array
+  keys.forEach(key => {
+    allowances[key] = allowanceValues[key][allowanceValues[key].length - 1];
+  });
+
   return allowances;
 }
+
 
 
 // Function to round the price to the nearest 100
