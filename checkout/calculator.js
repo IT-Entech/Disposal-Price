@@ -1,13 +1,53 @@
-// Configuration for rates and allowances
-const config = {
-  WasteDisposal: 600,
-  Fuel: 35, // Fuel Rate
-  Riskvalue: 1.05,
-  Distance: 2202,
-  IncomeRate: 2.5,
+function clearAndFetch() {
+  // ตรวจสอบว่ามีค่าใน input หรือไม่
+  const weightInput = document.getElementById('Weight-price');
+  
+  if (weightInput.value !== '') {
+    // ถ้ามีค่าใน input ลบค่าออก
+    weightInput.value = '';
+  }
+  
+  // เรียกใช้ฟังก์ชัน fetchData() ที่คุณต้องการ
+  fetchData();
+}
+let Disposalprice = 0; // Global variable for Disposal price
+  let consumptionRate = 0; // Global variable for consumption rate
+function fetchData() {
+  const lat = document.getElementById('lat').value;
+  const lng = document.getElementById('lng').value;
+  const wasteCode = document.getElementById('WasteCode').value;
+
+  // Prepare the POST request
+  const formData = new FormData();
+  formData.append('lat', lat);
+  formData.append('lng', lng);
+  formData.append('WasteCode', wasteCode);
+
+  fetch('../fetch-price.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.disposal_prices && data.disposal_prices.length > 0) {
+      const disposalPrice = data.disposal_prices[0].disposal_price;
+      document.getElementById('disposal_price').value = isNaN(disposalPrice) ? 'Invalid price' : disposalPrice;
+    }  else {
+      document.getElementById('disposal_price').value = 'No price found';
+    }
+  })
+  .catch(error => {
+    console.error('Error during fetch:', error);
+  });
 };
 
-// DOM Elements
+// Initial config object with default WasteDisposal
+const config = {
+  WasteDisposal: 8000,  // Default value until fetched
+  Fuel: 35,  // Fuel Rate
+  Riskvalue: 1.05,
+  IncomeRate: 2.5,
+};
 
 const weightInput = document.getElementById('Weight-price');
 const truckSmallRadio = document.getElementById('truck_small');
@@ -41,34 +81,32 @@ const imageLargeCrane = document.getElementById('CraneImageLarge');
 const imageLargeTrailer= document.getElementById('ImageTrailer');
 const imageLargeTV = document.getElementById('VacuumImageTrailer');
 
-let Disposalprice = 0; // Global variable for Disposal price
-  let consumptionRate = 0; // Global variable for consumption rate
 // Function to calculate and display the price
 function calculatePrice() {
-  const wastename = wastenameInput.value.trim();
-  const weightValue = weightInput.value.trim();
 
+  const wastename = document.getElementById('Wastename').value.trim();
+  const price = document.getElementById('disposal_price')
+  const weightValue = document.getElementById('Weight-price').value.trim();
+  const disposal = parseFloat(price.value || price.innerText); 
   if (weightValue !== '' && !isNaN(weightValue)) {
     const weightNumber = parseFloat(weightValue);
-
-      
-    // Calculate total price
-    Disposalprice = (config.WasteDisposal * weightNumber);
-
-    // Round the price
-    Disposalprice = roundPrice(Disposalprice);
+    Disposalprice = (disposal * weightNumber); // Update global Disposalprice
+    Disposalprice = roundPrice(Disposalprice); // Round the price
     console.log(`Disposal Price: ${Disposalprice}`);
-    // Update the UI with formatted price and weight
-
-  } 
+  }
 }
 
-
-
-// Function to calculate consumption rate based on selected truck and option
 function updateConsumptionRate() {
+  const distanceInput = document.getElementById('distance3');
+  const distance = parseFloat(distanceInput.value || distanceInput.innerText); 
+
+  // ตรวจสอบว่าค่าที่ดึงมาเป็นตัวเลขที่ถูกต้อง
+  if (isNaN(distance) || distance <= 0) {
+    console.log('ระยะทางไม่ถูกต้อง');
+    return;
+  }
   calculatePrice();
-  const distance = parseFloat(config.Distance);
+
   let consumptionRate = 0;
   let allowances = {}; // Initialize allowances as an empty object
   let fixcost = {};
@@ -194,17 +232,14 @@ function calculateTotal() {
   if (Disposalprice !== '' && !isNaN(Disposalprice) && totalAllowanceValue !== '' && !isNaN(totalAllowanceValue)) { 
 
     // Calculate total price
-    let priceNumber1 = (Disposalprice) + (totalAllowanceValue) * config.Riskvalue * config.IncomeRate;
+    let priceNumber1 = ((Disposalprice + totalAllowanceValue) * config.Riskvalue) * config.IncomeRate;
 
     // Round the price
     priceNumber1 = roundPrice(priceNumber1);
     console.log(`Total Price: ${priceNumber1}`);
 
 
-    totalBeforeVatElement.innerText = `฿${priceNumber1.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  } else {
-
-    totalBeforeVatElement.innerText = '฿0.00';
+    
   }
 }
 
@@ -243,20 +278,34 @@ if (!wastename) {
   modalFooter.style.display = 'none';
 
   // Simulate a delay for calculation (e.g., 2 seconds)
-  setTimeout(() => {
-    // Calculate the total price
-    const { totalAllowanceValue } = updateConsumptionRate(); // Ensure this function exists and returns the allowance
-    const totalPrice = Disposalprice + totalAllowanceValue * config.Riskvalue * config.IncomeRate;
-    let totalPrice1 = 0;
-    totalPrice1 = roundPrice(totalPrice);
-    // Update modal content to show the result
-    modalTitle.innerText = 'Calculation Complete';
-    modalBody.innerHTML = `
-      <p>Waste ที่ต้องการกำจัด : ${wastename}</p>
-      <p>น้ำหนัก: ${weight.toLocaleString()} ตัน</p>
-      <p>ราคาค่าบริการ: ${totalPrice1.toLocaleString()} บาท</p>`;
-    modalFooter.style.display = 'block';
-  }, 2000); // Simulate a 2-second calculation delay
+// Set a timeout to check the calculation time
+const calculationTimeout = setTimeout(() => {
+  // Show an error message if the calculation took too long (more than 5000ms)
+  modalTitle.innerText = 'Calculation Error';
+  modalBody.innerHTML = `<p>ไม่สามารถคำนวณได้ เนื่องจากใช้เวลานานเกินไป</p>`;
+  modalFooter.style.display = 'none'; // Hide footer if needed
+}, 5000); // 5000ms or 5 seconds
+
+// Start the calculation
+setTimeout(() => {
+  // Calculate the total price
+  const { totalAllowanceValue } = updateConsumptionRate(); // Ensure this function exists and returns the allowance
+  const totalPrice = ((Disposalprice + totalAllowanceValue) * config.Riskvalue) * config.IncomeRate;
+  let totalPrice1 = 0;
+  totalPrice1 = roundPrice(totalPrice);
+
+  // Clear the timeout because the calculation completed in time
+  clearTimeout(calculationTimeout);
+
+  // Update modal content to show the result
+  modalTitle.innerText = 'Calculation Complete';
+  modalBody.innerHTML = `
+    <p>Waste ที่ต้องการกำจัด : ${wastename}</p>
+    <p>น้ำหนัก: ${weight.toLocaleString()} ตัน</p>
+    <p>ราคาค่าบริการ: ${totalPrice1.toLocaleString()} บาท</p>`;
+  modalFooter.style.display = 'block'; // Show the footer
+}, 2000); // Simulate a 2-second calculation delay
+
 });
 
 
