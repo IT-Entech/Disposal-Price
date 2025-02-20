@@ -9,7 +9,9 @@ if ($objCon === false) {
 $wastecode = isset($_POST['WasteCode']) ? $_POST['WasteCode'] : '';
 $search = "%" . $wastecode . "%";
 // Query for supplier_code
-$sql = "SELECT supplier_code FROM disposal_price WHERE waste_code LIKE ? ";
+$sql = "SELECT A.supplier_code,latitude,longitude,waste_code,disposal_code,disposal_price FROM supplier_coordinate A 
+LEFT JOIN 
+disposal_price B ON A.supplier_code = B.supplier_code WHERE waste_code LIKE ? ";
 $params1 = array($search);
 $stmt1 = sqlsrv_query($objCon, $sql, $params1);
 
@@ -20,8 +22,18 @@ if ($stmt1 === false) {
 
 // Fetch the supplier codes into an array
 $supplier_codes = [];
+$latitudes = [];
+$longitudes = [];
+$waste_codes = [];
+$disposal_codes = [];
+$disposal_prices = [];
 while ($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)) {
     $supplier_codes[] = $row['supplier_code'];
+    $latitudes[] = $row['latitude']; // Latitude
+    $longitudes[] = $row['longitude']; // Longitude
+    $waste_codes[] = $row['waste_code']; // Waste code
+    $disposal_codes[] = $row['disposal_code']; // Disposal code
+    $disposal_prices[] = $row['disposal_price']; // Disposal price
 }
 // Check if no supplier codes were found
 if (empty($supplier_codes)) {
@@ -53,7 +65,11 @@ $coordinates = [];
 // Return the response as JSON
 $response = [
     'supplier_codes' => $supplier_codes,
-    'coordinates' => $coordinates
+    'latitudes' => $latitudes,
+    'longitudes' => $longitudes,
+    'waste_codes' => $waste_codes,
+    'disposal_codes' => $disposal_codes,
+    'disposal_prices' => $disposal_prices
 ];
 
 echo json_encode($response);

@@ -49,7 +49,7 @@ const config = {
   IncomeRate: 2.5,
 };
 
-const weightInput = document.getElementById('Weight-price');
+const weightInput = document.getElementById('Disposal-weight');
 const truckSmallRadio = document.getElementById('truck_small');
 const truckLargeRadio = document.getElementById('truck_large');
 const truckOptionsDiv = document.getElementById('truckOptions');
@@ -86,7 +86,7 @@ function calculatePrice() {
 
   const wastename = document.getElementById('Wastename').value.trim();
   const price = document.getElementById('disposal_price')
-  const weightValue = document.getElementById('Weight-price').value.trim();
+  const weightValue = document.getElementById('Disposal-weight').value.trim();
   const disposal = parseFloat(price.value || price.innerText); 
   if (weightValue !== '' && !isNaN(weightValue)) {
     const weightNumber = parseFloat(weightValue);

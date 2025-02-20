@@ -132,12 +132,10 @@
                 Valid last name is required.
               </div>
             </div>
-            <div class="col-sm-2">
-              <button class="w-100 btn btn-primary btn-lg" style="margin-top: 20%" onclick="clearAndFetch()">คำนวณราคา</button>
-            </div>
+
             <div class="col-sm-3">
-              <label for="Weight-price" class="form-label">น้ำหนัก (ตัน)</label>
-              <input type="text" class="form-control" id="Weight-price" placeholder="" value="" required>
+              <label for="Disposal-weight" class="form-label">น้ำหนัก (ตัน)</label>
+              <input type="text" class="form-control" id="Disposal-weight" placeholder="" value="0" required>
               <div class="invalid-feedback">
                 Valid last name is required.
               </div>
@@ -201,7 +199,7 @@
               <label for="Tel" class="form-label">เบอร์โทรศัพท์</label>
               <input type="tel" class="form-control" id="Tel" placeholder="" required>
               <div class="invalid-feedback">
-                Zip code required.
+                Telephone number required.
               </div>
             </div>
             <div class="col-md-4">
@@ -224,62 +222,63 @@
 
           <div class="my-3">
             <div class="form-check">
-              <input id="truck_small" name="paymentMethod" type="radio" class="form-check-input"  required>
+              <input id="truck_small" name="truckType" type="radio" class="form-check-input"  required>
               <label class="form-check-label" for="truck_small">รถบรรทุกเล็ก (น้ำหนักไม่เกิน 2 ตัน)</label>
               <img id="truckImage" src="../assets/img/jumbo.jpg" alt="รถบรรทุกเล็ก" style="display:none; width: 300px;"/>
             </div>
             <div class="form-check">
-              <input id="truck_large" name="paymentMethod" type="radio" class="form-check-input" required>
+              <input id="truck_large" name="truck_large" type="radio" class="form-check-input" required>
               <label class="form-check-label" for="truck_large">รถบรรทุก</label>
             </div>
             <!-- Hidden options for choosing between a single truck or truck with trailer -->
             <div id="truckOptions" style="display:none;">
               <div class="form-check">
-                <input id="single_truck" name="truckType" type="radio" class="form-check-input" required>
-                <label class="form-check-label" for="single_truck">รถเดี่ยว</label>
+                <input id="single_truck" name="truck_options" type="radio" class="form-check-input" required>
+                <label class="form-check-label" for="single_truck">รถบรรทุกเดี่ยว (บรรทุกน้ำหนักไม่เกิน 12 ตัน)</label>
               </div>
               <!-- Hidden options for Rolloff, Vacuum, and Crane -->
               <div id="singleTruckOptions" style="display:none; margin-top: 10px;">
                 <div class="form-check-horizontal">
-                  <input id="single_rolloff" name="singleTruckOption" type="radio" class="form-check-input" required>
+                  <input id="single_rolloff" name="truckType" type="radio" class="form-check-input" required>
                   <label class="form-check-label" for="single_rolloff">Rolloff</label>
                   <img id="truckImageLarge" src="../assets/img/single-Truck.jpg" alt="รถบรรทุก" style="display:none; width: 300px;"/>
                 </div>
                 <div class="form-check-horizontal">
-                  <input id="single_vacuum" name="singleTruckOption" type="radio" class="form-check-input" required>
+                  <input id="single_vacuum" name="truckType" type="radio" class="form-check-input" required>
                   <label class="form-check-label" for="single_vacuum">Vacuum</label>
                   <img id="VacuumImageLarge" src="../assets/img/single-Vacump.jpg" alt="รถบรรทุก" style="display:none; width: 300px;"/>
                 </div>
                 <div class="form-check-horizontal">
-                  <input id="single_crane" name="singleTruckOption" type="radio" class="form-check-input" required>
+                  <input id="single_crane" name="truckType" type="radio" class="form-check-input" required>
                   <label class="form-check-label" for="single_crane">Crane</label>
                   <img id="CraneImageLarge" src="../assets/img/single-Crane.jpg" alt="รถบรรทุก" style="display:none; width: 300px;"/>
                 </div>
               </div>
               <div class="form-check">
-                <input id="trailer_truck" name="truckType" type="radio" class="form-check-input" required>
-                <label class="form-check-label" for="trailer_truck">รถพ่วง</label>
+                <input id="trailer_truck" name="truck_options" type="radio" class="form-check-input" required>
+                <label class="form-check-label" for="trailer_truck">รถบรรทุกพ่วง (บรรทุกน้ำหนักมากกว่า 12 ตัน แต่ไม่เกิน 24ตัน)</label>
               </div>
                <!-- Hidden options for Rolloff, Vacuum, and Crane -->
                <div id="trailerTruckOptions" style="display:none; margin-top: 10px;">
                 <div class="form-check-horizontal">
-                  <input id="trailer_rolloff" name="trailerTruckOption" type="radio" class="form-check-input" required>
+                  <input id="trailer_rolloff" name="truckType" type="radio" class="form-check-input" required>
                   <label class="form-check-label" for="trailer_rolloff">Rolloff</label>
                   <img id="ImageTrailer" src="../assets/img//trailer-Rolloff.jpg" alt="รถบรรทุก" style="display:none; width: 300px;"/>
                 </div>
                 <div class="form-check-horizontal">
-                  <input id="trailer_vacuum" name="trailerTruckOption" type="radio" class="form-check-input" required>
+                  <input id="trailer_vacuum" name="truckType" type="radio" class="form-check-input" required>
                   <label class="form-check-label" for="trailer_vacuum">Vacuum</label>
                   <img id="VacuumImageTrailer" src="../assets/img/Trailer-Vacump.jpg" alt="รถบรรทุก" style="display:none; width: 300px;"/>
                 </div>
                 <div class="form-check-horizontal">
-                  <input id="trailer_crane" name="trailerTruckOption" type="radio" class="form-check-input" required>
+                  <input id="trailer_crane" name="truckType" type="radio" class="form-check-input" required>
                   <label class="form-check-label" for="trailer_crane">Crane</label>
                 </div>
               </div>
             </div>
           </div>
 
+          </iframe> 
           <!--div class="row gy-3">
             <div class="col-md-6">
               <label for="cc-name" class="form-label">Name on card</label>
@@ -316,8 +315,8 @@
           </div-->
 
           <hr class="my-4">
-
-          <button class="w-100 btn btn-primary btn-lg" id="calculateButton" type="submit">ใบเสนอราคา **click**</button>
+          <button class="w-100 btn btn-primary btn-lg" style="margin-bottom: 5%" onclick="clearAndFetch()">คำนวณราคา</button>
+          <button class="w-100 btn btn-primary btn-lg" id="calculateButton" type="submit">สนใจใบเสนอราคา **click**</button>
         </form>
       </div>
     </div>
@@ -337,8 +336,8 @@
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
       <script src="form-validation.js"></script>
-      <script src="calculator.js"></script>
-      <script src="API-Distance.js"></script>
+      <!--script src="calculator.js"></script-->
+      <script src="API-Distance3.js"></script>
   </body>
 
 </html>
