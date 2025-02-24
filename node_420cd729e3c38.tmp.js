@@ -1,4 +1,3 @@
-
 require('dotenv').config();  // โหลดตัวแปรจากไฟล์ .env
 const express = require('express');
 const axios = require('axios'); // ใช้ axios ในการส่งคำขอ HTTP
@@ -55,7 +54,7 @@ app.post('/submit-data', async (req, res) => {
         request.input('disposal_Cost', sql.Decimal(18,2), disposal_Cost);
         request.input('weight', sql.Decimal(18,2), weight);
         request.input('fixCosts', sql.Decimal(18,2), fixCosts);
-        request.input('vehicle_type', sql.VarChar(50), vehicle_type);
+        request.input('vehicle_type', sql.Char(2), vehicle_type);
         request.input('consumption', sql.Decimal(18,2), consumption);
         request.input('Allowance', sql.Decimal(18,2), Allowance);
         request.input('contactname', sql.VarChar(25), contactname);
@@ -66,7 +65,6 @@ app.post('/submit-data', async (req, res) => {
         await request.query(query);
 
         res.status(200).send('Data inserted successfully');
-
     } catch (err) {
         console.error(err);
         res.status(500).send('Database error');
