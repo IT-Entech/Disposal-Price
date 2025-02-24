@@ -35,7 +35,7 @@ function initMap() {
    
 
       // Save the coordinates of the selected place
-      savedCoordinates.push(place.geometry.location);
+      savedCoordinates = (place.geometry.location);
 
       // Create a new marker for the searched place
       currentMarker = new google.maps.Marker({
@@ -52,7 +52,9 @@ function initMap() {
       }
     });
     map.fitBounds(bounds);
-    calculateDistances(); // Call calculateDistances after updating the coordinates
+
+        // Calculate distance using the last saved coordinate
+        calculateDistances();
   });
 
   // ตั้งค่าการคลิกบนแผนที่
@@ -67,7 +69,7 @@ function initMap() {
 
 
     // Save the clicked coordinates
-    savedCoordinates.push(clickedLocation);
+    savedCoordinates = [clickedLocation];
 
     // Create a new marker at the clicked location
     currentMarker = new google.maps.Marker({
