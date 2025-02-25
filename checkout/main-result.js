@@ -496,7 +496,7 @@ function calculateDistances(lastLocation) {
                        modalFooter.innerHTML = `<button id="okButton" class="btn btn-primary">OK</button>`;
                      modalFooter.style.display = 'block'; // Show the footer
                      document.getElementById('okButton').addEventListener('click', () => {
-                        fetch('http://localhost:3050/submit-data', {
+                        fetch('http://localhost:3000/submit-data', {
                           method: 'POST',
                           headers: {
                            'Content-Type': 'application/json'
@@ -576,7 +576,7 @@ function calculateDistances(lastLocation) {
       // โหลด Google Maps API พร้อมฟังก์ชัน callback
       function loadGoogleMapsScript() {
         const script = document.createElement("script");
-        script.src = "http://localhost:3050/maps";  // เรียก API ผ่าน Proxy Server
+        script.src = "http://localhost:3000/maps";  // เรียก API ผ่าน Proxy Server
         script.async = true;
         script.defer = true;
         document.head.appendChild(script);
