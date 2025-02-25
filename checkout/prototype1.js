@@ -373,7 +373,7 @@ function calculateDistances(lastLocation) {
                          const TransportCost = consumptionRate + fixcostTotal + allowanceTotal;
                          const TotalCOST = TransportCost + disposalCost;
                          // แสดงผลสำหรับแต่ละการคำนวณ
-                         console.log(`การคำนวณที่ ${index + 1}:`);
+                         /*console.log(`การคำนวณที่ ${index + 1}:`);
                          console.log(`Supplier Code: ${supplierCode}`);
                          console.log(`Disposal Code: ${disposalCode}`);
                          console.log(`ประเภทรถ: ${selectedTruck}`);
@@ -383,7 +383,7 @@ function calculateDistances(lastLocation) {
                          console.log(`Consumption Rate: ${consumptionRate.toLocaleString()} Baht`);
                          console.log(`Allowances: ${allowanceTotal.toLocaleString()} Baht`);
                          console.log(`Disposal Cost: ${disposalCost.toLocaleString()} Baht`);
-                         console.log(`ราคารวมทั้งหมด: ${TotalCOST.toLocaleString()} Baht`);
+                         console.log(`ราคารวมทั้งหมด: ${TotalCOST.toLocaleString()} Baht`);*/
                          // ตรวจสอบและอัปเดตค่าราคารวมที่ต่ำที่สุด
                          if (TotalCOST < minTotalCost) {
                           minTotalCost = TotalCOST;
