@@ -73,23 +73,7 @@ app.post('/submit-data', async (req, res) => {
     }
 });
 
-// Route สำหรับเรียกข้อมูลจาก Google Maps API
-app.get('/maps', async (req, res) => {
-  try {
-    // ใช้ Axios ส่งคำขอไปยัง Google Maps API
-    const response = await axios.get('https://maps.googleapis.com/maps/api/js', {
-      params: {
-        key: process.env.GOOGLE_MAPS_API_KEY,  // ใช้ API key จาก .env
-        libraries: 'places',  // ใช้ Libraries ที่ต้องการ
-        callback: 'initMap',   // กำหนด callback function
-      }
-    });
-    
-    res.send(response.data);  // ส่งข้อมูลที่ได้รับจาก Google Maps API กลับไปที่ฝั่ง client
-  } catch (error) {
-    res.status(500).send('Error fetching Google Maps API');  // ส่งข้อผิดพลาดในกรณีเกิดข้อผิดพลาด
-  }
-});
+
 
 // เริ่ม Server
 app.listen(3000, () => {

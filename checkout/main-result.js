@@ -573,16 +573,7 @@ function calculateDistances(lastLocation) {
   
     return allowances;
   }
-      // โหลด Google Maps API พร้อมฟังก์ชัน callback
-      function loadGoogleMapsScript() {
-        const script = document.createElement("script");
-        script.src = "http://localhost:3000/maps";  // เรียก API ผ่าน Proxy Server
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
-      }
-      
-      loadGoogleMapsScript();
+
 
       function resetTrailerOptions() {
         trailerTruckRadio.checked = false;
