@@ -32,19 +32,21 @@ async function connectToSQLServer() {
 }
 
 connectToSQLServer();
+let pool;
+async function getPool() {
+  if (!pool) {
+    pool = await new sql.ConnectionPool(config).connect();
+  }
+  return pool;
+}
 // Route สำหรับรับข้อมูลจาก Client และส่งไป SQL Server
 app.post('/submit-data', async (req, res) => {
     try {
         // รับข้อมูลจาก Client
         const { companyName, wastecode, wastename, disposal_Code, supplier_Code, Total_before_vat, DistanceKM,disposal_Cost, weight, fixCosts, vehicle_type, consumption, Allowance, contactname, Email, Tel, services, serviceInterested } = req.body;
-
+        const pool = await getPool();  // Use existing pool
+        const request = pool.request();  // Create request from pool
         // เชื่อมต่อกับ SQL Server
-        await sql.connect(config);
-        const request = new sql.Request();
-
-        // ส่งข้อมูลไปยัง SQL Server
-        const query = `INSERT INTO temp_cs_head (customer_name, waste_code, waste_name, disposal_code, supplier_code, total_before_vat, distance, disposal_value, weight, fix_cost, vehicle_type, consumption_rate, allowance, contact_name, email, tel, time_service, qt_status)
-        VALUES (@companyName, @wastecode, @wastename, @disposal_Code, @supplier_Code, @Total_before_vat, @DistanceKM, @disposal_Cost, @weight, @fixCosts, @vehicle_type, @consumption, @Allowance, @contactname, @Email, @Tel, @services, @serviceInterested)`;
         request.input('companyName', sql.VarChar(50), companyName);
         request.input('wastecode', sql.VarChar(10), wastecode);
         request.input('wastename', sql.VarChar(50), wastename);
@@ -60,9 +62,12 @@ app.post('/submit-data', async (req, res) => {
         request.input('Allowance', sql.Decimal(18,2), Allowance);
         request.input('contactname', sql.VarChar(25), contactname);
         request.input('Email', sql.VarChar(50), Email);
-        request.input('Tel', sql.Int, Tel);
+        request.input('Tel', sql.VarChar(15), Tel);
         request.input('services', sql.Char(1), services);
         request.input('serviceInterested', sql.Char(1), serviceInterested);
+        // ส่งข้อมูลไปยัง SQL Server
+        const query = `INSERT INTO temp_cs_head (customer_name, waste_code, waste_name, disposal_code, supplier_code, total_before_vat, distance, disposal_value, weight, fix_cost, vehicle_type, consumption_rate, allowance, contact_name, email, tel, time_service, qt_status)
+        VALUES (@companyName, @wastecode, @wastename, @disposal_Code, @supplier_Code, @Total_before_vat, @DistanceKM, @disposal_Cost, @weight, @fixCosts, @vehicle_type, @consumption, @Allowance, @contactname, @Email, @Tel, @services, @serviceInterested)`;
         await request.query(query);
 
         res.status(200).send('Data inserted successfully');
