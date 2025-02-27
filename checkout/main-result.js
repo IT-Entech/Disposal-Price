@@ -372,18 +372,7 @@ function calculateDistances(lastLocation) {
                          const allowanceTotal = Object.values(allowances).reduce((acc, value) => acc + value, 0);
                          const TransportCost = consumptionRate + fixcostTotal + allowanceTotal;
                          const TotalCOST = TransportCost + disposalCost;
-                         // แสดงผลสำหรับแต่ละการคำนวณ
-                         /*console.log(`การคำนวณที่ ${index + 1}:`);
-                         console.log(`Supplier Code: ${supplierCode}`);
-                         console.log(`Disposal Code: ${disposalCode}`);
-                         console.log(`ประเภทรถ: ${selectedTruck}`);
-                         console.log(`ระยะทาง: ${totalDistanceKm}`);
-                         console.log(`ราคาค่าขนส่ง: ${TransportCost}`);
-                         console.log(`Fixcost Total: ${fixcostTotal.toLocaleString()} Baht`);
-                         console.log(`Consumption Rate: ${consumptionRate.toLocaleString()} Baht`);
-                         console.log(`Allowances: ${allowanceTotal.toLocaleString()} Baht`);
-                         console.log(`Disposal Cost: ${disposalCost.toLocaleString()} Baht`);
-                         console.log(`ราคารวมทั้งหมด: ${TotalCOST.toLocaleString()} Baht`);*/
+
                          // ตรวจสอบและอัปเดตค่าราคารวมที่ต่ำที่สุด
                          if (TotalCOST < minTotalCost) {
                           minTotalCost = TotalCOST;
@@ -403,16 +392,6 @@ function calculateDistances(lastLocation) {
                   // แสดงผลราคารวมที่ต่ำที่สุด
                   const calculateButton = document.getElementById('calculateButton');
                   calculateButton.addEventListener('click', function() {
-                    /*if (minCalculationIndex !== -1) {
-                      console.log(`\nการคำนวณที่มีราคารวมทั้งหมดต่ำที่สุด:`);
-                      console.log(`การคำนวณที่ ${minCalculationIndex}`);
-                      console.log(`Supplier Code: ${supplier_Code}`);
-                      console.log(`Disposal Code: ${disposal_Code}`);
-                      console.log(`ราคาค่าขนส่ง: ${Transport_Cost}`);
-                      console.log(`Disposal Cost: ${disposal_Cost.toLocaleString()} Baht`);
-                      const miniTotalCost = roundPrice(minTotalCost).toLocaleString();
-                      console.log(`ราคารวมทั้งหมดที่ต่ำที่สุด: ${miniTotalCost} Baht`);
-                    }*/
                     const modalTitle = document.getElementById('staticBackdropLiveLabel');
                     const modalBody = document.getElementById('modalBodyContent');
                     const modalFooter = document.getElementById('modalFooterContent');
@@ -493,38 +472,40 @@ function calculateDistances(lastLocation) {
                        serviceInterestedValue = this.checked ? 'Y' : 'N';
                      });
 
-                       modalFooter.innerHTML = `<button id="okButton" class="btn btn-primary">OK</button>`;
+                       modalFooter.innerHTML = `<button  id="okButton" class="btn btn-primary">OK</button>`;
                      modalFooter.style.display = 'block'; // Show the footer
                      document.getElementById('okButton').addEventListener('click', () => {
-                        fetch('http://localhost:3000/submit-data', {
+                      const data = {
+                        companyName: companyName,
+                        wastecode: wastecode,
+                        wastename: wastename,
+                        disposal_Code: disposal_Code,
+                        supplier_Code: supplier_Code,
+                        Total_before_vat: miniTotalCost,
+                        DistanceKM: distancekm,
+                        disposal_Cost: disposal_Cost,
+                        weight: weight,
+                        fixCosts: fixedcost,
+                        vehicle_type: TruckType,
+                        consumption: consumption,
+                        Allowance: Allowance,
+                        contactname: contactname,
+                        Email: Email,
+                        Tel: Tel,
+                        services: services,
+                        serviceInterested: serviceInterestedValue
+                      };
+                      const jsonData = JSON.stringify(data);
+                      fetch('../insertData.php', {
                           method: 'POST',
                           headers: {
-                           'Content-Type': 'application/json'
+                            'Content-Type': 'application/json' // กำหนด header ว่าเป็น JSON
                           },
-                          body: JSON.stringify({
-                           companyName: companyName,
-                           wastecode: wastecode,
-                           wastename: wastename,
-                           disposal_Code: disposal_Code,
-                           supplier_Code: supplier_Code,
-                           Total_before_vat: miniTotalCost,
-                           DistanceKM: distancekm,
-                           disposal_Cost: disposal_Cost,
-                           weight: weight,
-                           fixCosts: fixedcost,
-                           vehicle_type: TruckType,
-                           consumption: consumption,
-                           Allowance: Allowance,
-                           contactname: contactname,
-                           Email: Email,
-                           Tel: Tel,
-                           services: services,
-                           serviceInterested: serviceInterestedValue
-                          })
-                         })
+                          body: jsonData
+                      })
                          .then(response => response.text())
                          .then(data => {
-                          console.log('Response from server:', data);
+                          console.log('Success:', data);
                           window.location.reload();
                         })
                          .catch(error => {
@@ -532,7 +513,7 @@ function calculateDistances(lastLocation) {
                          });
                        });
                      }
-                   }, 2000); // Simulate a 2-second calculation delay
+                   }, 2000); 
                    
                    });
                 });
@@ -553,10 +534,11 @@ function calculateDistances(lastLocation) {
     const remainder100 = price % 1000;
     return remainder100 > 100 ? price + (1000 - remainder100) : price - remainder100;
   }
+
   function calculateAllowances(totalDistanceKm, thresholds, allowanceValues) {
     const allowances = {};
     const keys = Object.keys(allowanceValues);
-    
+
     for (let i = 0; i < thresholds.length; i++) {
       if (totalDistanceKm <= thresholds[i]) {
         keys.forEach(key => {
@@ -565,12 +547,12 @@ function calculateDistances(lastLocation) {
         return allowances; // ออกจากลูปเมื่อเจอระยะที่ตรงเงื่อนไข
       }
     }
-  
+
     // ถ้า distance มากกว่า 2200 ให้ใช้ค่า allowance ที่สุดท้ายใน array
     keys.forEach(key => {
       allowances[key] = allowanceValues[key][allowanceValues[key].length - 1];
     });
-  
+
     return allowances;
   }
 

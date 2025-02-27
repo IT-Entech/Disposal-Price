@@ -1,0 +1,20 @@
+{
+    "companyName": "En-technology consultants",
+    "wastecode": "110109-S",
+    "wastename": "\u0e01\u0e32\u0e01\u0e15\u0e30\u0e01\u0e2d\u0e19\u0e08\u0e32\u0e01\u0e23\u0e30\u0e1a\u0e1a\u0e1a\u0e33\u0e1a\u0e31\u0e14",
+    "disposal_Code": "042",
+    "supplier_Code": "\u0e2d-10001",
+    "Total_before_vat": 7000,
+    "DistanceKM": "343.65",
+    "disposal_Cost": 800,
+    "weight": 0.5,
+    "fixCosts": 3850,
+    "vehicle_type": "truckSmall",
+    "consumption": 1203,
+    "Allowance": 350,
+    "contactname": "Waroj Sukkum",
+    "Email": "IT-support@en-technology.com",
+    "Tel": "4545645645",
+    "services": "M",
+    "serviceInterested": "Y"
+}
