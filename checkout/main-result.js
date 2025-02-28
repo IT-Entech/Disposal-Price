@@ -371,7 +371,7 @@ function calculateDistances(lastLocation) {
                          const fixcostTotal = Object.values(fixcost).reduce((acc, value) => acc + value, 0);
                          const allowanceTotal = Object.values(allowances).reduce((acc, value) => acc + value, 0);
                          const TransportCost = consumptionRate + fixcostTotal + allowanceTotal;
-                         const TotalCOST = TransportCost + disposalCost;
+                         const TotalCOST = (TransportCost + disposalCost + 860) * 2.5;
 
                          // ตรวจสอบและอัปเดตค่าราคารวมที่ต่ำที่สุด
                          if (TotalCOST < minTotalCost) {
