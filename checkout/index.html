@@ -94,31 +94,15 @@
 <!-- Div ที่จะแสดงแผนที่ -->
        <input id="pac-input" class="form-control" type="search" placeholder="ค้นหาสถานที่...">
        <div id="map"></div>
-       <input id="lat" type="hidden" placeholder="latitude">
-       <input id="lng" type="hidden" placeholder="longitude">
-       <input id="distance3" type="hidden" placeholder="ระยะทางรวม">
-       <input id="disposal_price" type="hidden" placeholder="ค่ากำจัด">
-       
-
-       <!--div class="form-check">
-         <input type="checkbox" class="form-check-input" id="same-address">
-         <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
-       </div>
-
-       <div class="form-check">
-         <input type="checkbox" class="form-check-input" id="save-info">
-         <label class="form-check-label" for="save-info">Save this information for next time</label>
-       </div-->
-
       
-        <form class="needs-validation" novalidate id="myForm" action="insertData.php" method="POST">
+       <form class="needs-validation" novalidate id="myForm" action="insertData.php" method="POST" enctype="multipart/form-data">
           <div class="row g-3">
             <hr class="my-4">
             <h4 class="mb-3">รายละเอียดในการคำนวณราคา</h4>
             <div class="col-sm-5">
               <label for="Wastename" class="form-label">ชื่อของเสีย</label>
               <input type="search" class="form-control" id="Wastename" placeholder="โปรดระบุชื่อ Waste ที่ท่านต้องการกำจัด" list="wasteOptions" required>
-<datalist id="wasteOptions"></datalist>
+        <datalist id="wasteOptions"></datalist>
               <div class="invalid-feedback">
                 Valid Waste name is required.
               </div>

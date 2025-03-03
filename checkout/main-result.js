@@ -243,106 +243,86 @@ function calculateDistances(lastLocation) {
                           consumptionRate = 0; // Reset if distance is invalid
                           return;
                          }
-                     
-                         const truckConfig = {
-                          truckSmall: {
-                           fuelRate: 35,
-                           divisor: 10,
-                           fixcost: {
-                            smalltrans: 2500,
-                            Tech: 800,
-                            TechAssist: 550
-                           },
-                           allowances: calculateAllowances(totalDistanceKm, [200, 500, 700, 1200, 1700, 2200], {
-                            TechAllowance: [200, 200, 200, 850, 950, 1050, 1150],
-                            AssistTechAllowance: [150, 150, 150, 750, 800, 900, 1000]
-                           })
-                          },
-                     
-                          single_rolloff: {
-                           fuelRate: 35,
-                           divisor: 2.7,
-                           fixcost: {
-                            bigtrans: 4200,
-                            Driver: 600,
-                            Assist: 550
-                           },
-                           allowances: calculateAllowances(totalDistanceKm, [200, 500, 700, 1200, 1700, 2200], {
-                            Allowance: [300, 350, 400, 1100, 1200, 1400, 1700],
-                            AssistAllowance: [200, 200, 200, 750, 850, 950, 1050]
-                           })
-                          },
-                     
-                          trailer_rolloff: {
-                           fuelRate: 35,
-                           divisor: 2.7,
-                           fixcost: {
-                            bigtrans: 4200,
-                            Driver: 600,
-                            Assist: 550
-                           },
-                           allowances: calculateAllowances(totalDistanceKm, [200, 500, 700, 1200, 1700, 2200], {
-                            Allowance: [450, 500, 550, 1500, 1650, 1950, 2450],
-                            AssistAllowance: [200, 200, 200, 750, 850, 950, 1050]
-                           })
-                          },
-                     
-                          single_vacuum: {
-                           fuelRate: 35,
-                           divisor: 2.6,
-                           fixcost: {
-                            bigtrans: 4200,
-                            Driver: 600,
-                            Assist: 550
-                           },
-                           allowances: calculateAllowances(totalDistanceKm, [200, 500, 700, 1200, 1700, 2200], {
-                            Allowance: [400, 450, 500, 1300, 1400, 1600, 1900],
-                            AssistAllowance: [250, 250, 250, 850, 950, 1050, 1150]
-                           })
-                          },
-                     
-                          trailer_vacuum: {
-                           fuelRate: 35,
-                           divisor: 2.6,
-                           fixcost: {
-                            bigtrans: 4200,
-                            Driver: 600,
-                            Assist: 550
-                           },
-                           allowances: calculateAllowances(totalDistanceKm, [200, 500, 700, 1200, 1700, 2200], {
-                            Allowance: [600, 650, 700, 1800, 1950, 2250, 2750],
-                            AssistAllowance: [250, 250, 250, 850, 950, 1050, 1150]
-                           })
-                          },
-                     
-                          single_crane: {
-                           fuelRate: 35,
-                           divisor: 2.6,
-                           fixcost: {
-                            bigtrans: 4200,
-                            Driver: 600,
-                            Assist: 550
-                           },
-                           allowances: calculateAllowances(totalDistanceKm, [200, 500, 700, 1200, 1700, 2200], {
-                            Allowance: [450, 500, 550, 1400, 1500, 1700, 2000],
-                            AssistAllowance: [300, 300, 300, 950, 1050, 1150, 1250]
-                           })
-                          },
-                     
-                          trailer_crane: {
-                           fuelRate: 35,
-                           divisor: 2.6,
-                           fixcost: {
-                            bigtrans: 4200,
-                            Driver: 600,
-                            Assist: 550
-                           },
-                           allowances: calculateAllowances(totalDistanceKm, [200, 500, 700, 1200, 1700, 2200], {
-                            Allowance: [650, 700, 750, 1900, 2050, 2350, 2850],
-                            AssistAllowance: [300, 300, 300, 950, 1050, 1150, 1250]
-                           })
-                          },
-                         };
+                         // ใช้ Fetch API เพื่อดึงข้อมูลจาก PHP
+                          fetch('../Get-Api-map.php')
+                          .then(response => response.json())
+                          .then(data => {
+                              const Config = data;
+                              console.log(Config.truckSmall);
+                              const truckConfig = {
+                                truckSmall: {
+                                 fuelRate: Config.truckSmall.fuelRate,
+                                 divisor: Config.truckSmall.divisor,
+                                 fixcost: Config.truckSmall.fixcost,
+                                 allowances: calculateAllowances(totalDistanceKm, Config.truckSmall.allowances, {
+                                  TechAllowance: Config.truckSmall.TechAllowance,
+                                  AssistTechAllowance: Config.truckSmall.AssistTechAllowance
+                                 })
+                                },
+                           
+                                single_rolloff: {
+                                 fuelRate: Config.single_rolloff.fuelRate,
+                                 divisor: Config.single_rolloff.divisor,
+                                 fixcost: Config.single_rolloff.fixcost,
+                                 allowances: calculateAllowances(totalDistanceKm, Config.single_rolloff.allowances, {
+                                  Allowance: Config.single_rolloff.Allowance,
+                                  AssistAllowance: Config.single_rolloff.AssistAllowance
+                                 })
+                                },
+                           
+                                trailer_rolloff: {
+                                  fuelRate: Config.trailer_rolloff.fuelRate,
+                                  divisor: Config.trailer_rolloff.divisor,
+                                  fixcost: Config.trailer_rolloff.fixcost,
+                                  allowances: calculateAllowances(totalDistanceKm, Config.trailer_rolloff.allowances, {
+                                   Allowance: Config.trailer_rolloff.Allowance,
+                                   AssistAllowance: Config.trailer_rolloff.AssistAllowance
+                                  })
+                                 },
+                           
+                                single_vacuum: {
+                                  fuelRate: Config.single_vacuum.fuelRate,
+                                  divisor: Config.single_vacuum.divisor,
+                                  fixcost: Config.single_vacuum.fixcost,
+                                  allowances: calculateAllowances(totalDistanceKm, Config.single_vacuum.allowances, {
+                                   Allowance: Config.single_vacuum.Allowance,
+                                   AssistAllowance: Config.single_vacuum.AssistAllowance
+                                  })
+                                 },
+                           
+                                trailer_vacuum: {
+                                  fuelRate: Config.trailer_vacuum.fuelRate,
+                                  divisor: Config.trailer_vacuum.divisor,
+                                  fixcost: Config.trailer_vacuum.fixcost,
+                                  allowances: calculateAllowances(totalDistanceKm, Config.trailer_vacuum.allowances, {
+                                   Allowance: Config.trailer_vacuum.Allowance,
+                                   AssistAllowance: Config.trailer_vacuum.AssistAllowance
+                                  })
+                                 },
+                           
+                                single_crane: {
+                                  fuelRate: Config.single_crane.fuelRate,
+                                  divisor: Config.single_crane.divisor,
+                                  fixcost: Config.single_crane.fixcost,
+                                  allowances: calculateAllowances(totalDistanceKm, Config.single_crane.allowances, {
+                                   Allowance: Config.single_crane.Allowance,
+                                   AssistAllowance: Config.single_crane.AssistAllowance
+                                  })
+                                 },
+                           
+                                trailer_crane: {
+                                  fuelRate: Config.trailer_crane.fuelRate,
+                                  divisor: Config.trailer_crane.divisor,
+                                  fixcost: Config.trailer_crane.fixcost,
+                                  allowances: calculateAllowances(totalDistanceKm, Config.trailer_crane.allowances, {
+                                   Allowance: Config.trailer_crane.Allowance,
+                                   AssistAllowance: Config.trailer_crane.AssistAllowance
+                                  })
+                                 },
+                               };
+                              // สามารถใช้งาน truckConfig ต่อได้ที่นี่
+                       
+                        
                          // Update consumption rate based on the selected truck
                          let selectedTruck = '';
                          if (truckSmallRadio.checked) selectedTruck = 'truckSmall';
@@ -353,17 +333,17 @@ function calculateDistances(lastLocation) {
                          else if (single_craneRadio.checked) selectedTruck = 'single_crane';
                          else if (trailer_craneRadio.checked) selectedTruck = 'trailer_crane';
                      
-                         if (selectedTruck) {
-                          const {
-                           fuelRate,
-                           divisor,
-                           fixcost: selectedFixcost,
-                           allowances: selectedAllowances
-                          } = truckConfig[selectedTruck];
-                          fixcost = selectedFixcost;
-                          consumptionRate = (totalDistanceKm * fuelRate) / divisor;
-                          allowances = selectedAllowances;
-                         }
+                          if (selectedTruck) {
+                            const {
+                            fuelRate,
+                            divisor,
+                            fixcost: selectedFixcost,
+                            allowances: selectedAllowances
+                            } = truckConfig[selectedTruck];
+                            fixcost = selectedFixcost;
+                            consumptionRate = (totalDistanceKm * fuelRate) / divisor;
+                            allowances = selectedAllowances;
+                          }
                          
                     
                         
@@ -372,7 +352,7 @@ function calculateDistances(lastLocation) {
                          const allowanceTotal = Object.values(allowances).reduce((acc, value) => acc + value, 0);
                          const TransportCost = consumptionRate + fixcostTotal + allowanceTotal;
                          const TotalCOST = (TransportCost + disposalCost + 860) * 2.5;
-
+                         
                          // ตรวจสอบและอัปเดตค่าราคารวมที่ต่ำที่สุด
                          if (TotalCOST < minTotalCost) {
                           minTotalCost = TotalCOST;
@@ -387,6 +367,8 @@ function calculateDistances(lastLocation) {
                           Allowance = allowanceTotal;
                           minCalculationIndex = index + 1;
                          }
+                        })
+                        .catch(error => console.error('Error fetching truck data:', error));
                         }
                        });
                   // แสดงผลราคารวมที่ต่ำที่สุด
@@ -449,7 +431,8 @@ function calculateDistances(lastLocation) {
                    // Start the calculation
                    setTimeout(() => {
                      if (minCalculationIndex !== -1) {
-                       const miniTotalCost = roundPrice(minTotalCost);                   
+                       const miniTotalCost = roundPrice(minTotalCost);    
+                       console.log(miniTotalCost);               
                      // Clear the timeout because the calculation completed in time
                      clearTimeout(calculationTimeout);
                    
