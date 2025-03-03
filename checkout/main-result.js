@@ -26,7 +26,7 @@ function initMap() {
         const bounds = new google.maps.LatLngBounds();
         places.forEach(function(place) {
           if (!place.geometry || !place.geometry.location) {
-            console.log("สถานที่ไม่สามารถแสดงพิกัดได้");
+            //console.log("สถานที่ไม่สามารถแสดงพิกัดได้");
             return;
           }
     
@@ -247,8 +247,7 @@ function calculateDistances(lastLocation) {
                           fetch('../Get-Api-map.php')
                           .then(response => response.json())
                           .then(data => {
-                              const Config = data;
-                              console.log(Config.truckSmall);
+                              const Config = data;     
                               const truckConfig = {
                                 truckSmall: {
                                  fuelRate: Config.truckSmall.fuelRate,
@@ -431,8 +430,7 @@ function calculateDistances(lastLocation) {
                    // Start the calculation
                    setTimeout(() => {
                      if (minCalculationIndex !== -1) {
-                       const miniTotalCost = roundPrice(minTotalCost);    
-                       console.log(miniTotalCost);               
+                       const miniTotalCost = roundPrice(minTotalCost);                
                      // Clear the timeout because the calculation completed in time
                      clearTimeout(calculationTimeout);
                    
@@ -488,7 +486,7 @@ function calculateDistances(lastLocation) {
                       })
                          .then(response => response.text())
                          .then(data => {
-                          console.log('Success:', data);
+                          //console.log('Success:', data);
                           window.location.reload();
                         })
                          .catch(error => {
