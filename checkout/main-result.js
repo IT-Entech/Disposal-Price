@@ -2,6 +2,7 @@
 let currentMarker = null;  // Variable to store the current marker
 let savedCoordinates = [];  // Array to store saved coordinates
 
+
 function initMap() {
     const initialLocation = {
      lat: 13.736717,
@@ -513,7 +514,7 @@ function calculateDistances(lastLocation) {
   }
   function roundPrice(price) {
     const remainder100 = price % 1000;
-    return remainder100 > 100 ? price + (1000 - remainder100) : price - remainder100;
+    return remainder100 > 500 ? price + (1000 - remainder100) : price - remainder100;
   }
 
   function calculateAllowances(totalDistanceKm, thresholds, allowanceValues) {
