@@ -215,6 +215,7 @@ function calculateDistances(lastLocation) {
                     let minTotalCost = Infinity;  // กำหนดค่าเริ่มต้นของราคารวมที่ต่ำที่สุดเป็น Infinity
                     let supplier_Code = null;
                     let disposal_Code = null;
+                    let coordinateds = null;
                     let Transport_Cost = null;
                     let TruckType = null;
                     let disposal_Cost = null;
@@ -228,6 +229,7 @@ function calculateDistances(lastLocation) {
                         const disposalCost = weight * data.disposalPrice;
                         const disposalCode = data.disposalCode;
                         const supplierCode = data.supplierCode;
+                        const coordinated = data.destinationLatLng;
                         //console.log(`น้ำหนักขยะที่ปลายทาง ${index + 1}: ${disposalCost} Baht`);
                         //console.log(`ปลายทาง ${index + 1}: รหัสปลายทาง: ${data.supplierCode}, รหัสกำจัด: ${data.disposalCode}, ราคาค่ากำจัด: ${data.disposalPrice}, พิกัดปลายทาง: (${data.destinationLatLng.lat}, ${data.destinationLatLng.lng}), ระยะทางรวม: ${data.totalDistance} km`);
                         const truckRadios = document.querySelectorAll('input[name="truckType"]');
@@ -253,6 +255,7 @@ function calculateDistances(lastLocation) {
                                 truckSmall: {
                                  fuelRate: Config.truckSmall.fuelRate,
                                  divisor: Config.truckSmall.divisor,
+                                 maintanance: Config.truckSmall.maintanance,
                                  fixcost: Config.truckSmall.fixcost,
                                  allowances: calculateAllowances(totalDistanceKm, Config.truckSmall.allowances, {
                                   TechAllowance: Config.truckSmall.TechAllowance,
@@ -263,6 +266,7 @@ function calculateDistances(lastLocation) {
                                 single_rolloff: {
                                  fuelRate: Config.single_rolloff.fuelRate,
                                  divisor: Config.single_rolloff.divisor,
+                                 maintanance: Config.single_rolloff.maintanance,
                                  fixcost: Config.single_rolloff.fixcost,
                                  allowances: calculateAllowances(totalDistanceKm, Config.single_rolloff.allowances, {
                                   Allowance: Config.single_rolloff.Allowance,
@@ -273,6 +277,7 @@ function calculateDistances(lastLocation) {
                                 trailer_rolloff: {
                                   fuelRate: Config.trailer_rolloff.fuelRate,
                                   divisor: Config.trailer_rolloff.divisor,
+                                  maintanance: Config.trailer_rolloff.maintanance,
                                   fixcost: Config.trailer_rolloff.fixcost,
                                   allowances: calculateAllowances(totalDistanceKm, Config.trailer_rolloff.allowances, {
                                    Allowance: Config.trailer_rolloff.Allowance,
@@ -283,6 +288,7 @@ function calculateDistances(lastLocation) {
                                 single_vacuum: {
                                   fuelRate: Config.single_vacuum.fuelRate,
                                   divisor: Config.single_vacuum.divisor,
+                                  maintanance: Config.single_vacuum.maintanance,
                                   fixcost: Config.single_vacuum.fixcost,
                                   allowances: calculateAllowances(totalDistanceKm, Config.single_vacuum.allowances, {
                                    Allowance: Config.single_vacuum.Allowance,
@@ -293,6 +299,7 @@ function calculateDistances(lastLocation) {
                                 trailer_vacuum: {
                                   fuelRate: Config.trailer_vacuum.fuelRate,
                                   divisor: Config.trailer_vacuum.divisor,
+                                  maintanance: Config.trailer_vacuum.maintanance,
                                   fixcost: Config.trailer_vacuum.fixcost,
                                   allowances: calculateAllowances(totalDistanceKm, Config.trailer_vacuum.allowances, {
                                    Allowance: Config.trailer_vacuum.Allowance,
@@ -303,6 +310,7 @@ function calculateDistances(lastLocation) {
                                 single_crane: {
                                   fuelRate: Config.single_crane.fuelRate,
                                   divisor: Config.single_crane.divisor,
+                                  maintanance: Config.single_crane.maintanance,
                                   fixcost: Config.single_crane.fixcost,
                                   allowances: calculateAllowances(totalDistanceKm, Config.single_crane.allowances, {
                                    Allowance: Config.single_crane.Allowance,
@@ -313,6 +321,7 @@ function calculateDistances(lastLocation) {
                                 trailer_crane: {
                                   fuelRate: Config.trailer_crane.fuelRate,
                                   divisor: Config.trailer_crane.divisor,
+                                  maintanance: Config.trailer_crane.maintanance,
                                   fixcost: Config.trailer_crane.fixcost,
                                   allowances: calculateAllowances(totalDistanceKm, Config.trailer_crane.allowances, {
                                    Allowance: Config.trailer_crane.Allowance,
@@ -337,21 +346,21 @@ function calculateDistances(lastLocation) {
                             const {
                             fuelRate,
                             divisor,
+                            maintanance,
                             fixcost: selectedFixcost,
                             allowances: selectedAllowances
                             } = truckConfig[selectedTruck];
+                            costMA = maintanance * totalDistanceKm;
                             fixcost = selectedFixcost;
                             consumptionRate = (totalDistanceKm * fuelRate) / divisor;
                             allowances = selectedAllowances;
                           }
-                         
-                    
-                        
                          consumptionRate = Math.round(consumptionRate);
                          const fixcostTotal = Object.values(fixcost).reduce((acc, value) => acc + value, 0);
                          const allowanceTotal = Object.values(allowances).reduce((acc, value) => acc + value, 0);
-                         const TransportCost = consumptionRate + fixcostTotal + allowanceTotal;
-                         const TotalCOST = (TransportCost + disposalCost + 860) * 2.5;
+                         const TransportCost = consumptionRate + fixcostTotal + allowanceTotal + costMA;
+                         const CostRisk = (TransportCost + disposalCost + 900) * 0.05;
+                         const TotalCOST = ((TransportCost + disposalCost + 900) + CostRisk) * 2.5;
                          
                          // ตรวจสอบและอัปเดตค่าราคารวมที่ต่ำที่สุด
                          if (TotalCOST < minTotalCost) {
@@ -365,6 +374,7 @@ function calculateDistances(lastLocation) {
                           fixedcost = fixcostTotal;
                           consumption = consumptionRate;
                           Allowance = allowanceTotal;
+                          coordinateds = coordinated;
                           minCalculationIndex = index + 1;
                          }
                         })
@@ -377,6 +387,7 @@ function calculateDistances(lastLocation) {
                     const modalTitle = document.getElementById('staticBackdropLiveLabel');
                     const modalBody = document.getElementById('modalBodyContent');
                     const modalFooter = document.getElementById('modalFooterContent');
+                    console.log('พิกัด:', coordinateds);
                    // Get the weight input value
                    const weightInput = document.getElementById('Disposal-weight');
                    const weight = parseFloat(weightInput.value);
@@ -459,6 +470,7 @@ function calculateDistances(lastLocation) {
                      document.getElementById('okButton').addEventListener('click', () => {
                       const data = {
                         companyName: companyName,
+                        coordinates: coordinateds,
                         wastecode: wastecode,
                         wastename: wastename,
                         disposal_Code: disposal_Code,
