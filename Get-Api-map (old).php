@@ -9,8 +9,8 @@ ini_set('display_errors', 1);
             'maintanance' => 1,
             'fixcost' => [
                 'smalltrans' => 2500,
-                'Tech' => 900,
-                'TechAssist' => 700,
+                'Tech' => 800,
+                'TechAssist' => 550,
             ],
             'allowances' => [200, 500, 700, 1200, 1700, 2200], 
             'TechAllowance' => [200, 200, 200, 850, 950, 1050, 1150],
@@ -21,9 +21,9 @@ ini_set('display_errors', 1);
             'divisor' => 2.7,
             'maintanance' => 3.74,
             'fixcost' => [
-                'bigtrans' => 2500,
-                'Driver' => 900,
-                'Assist' => 700,
+                'bigtrans' => 4200,
+                'Driver' => 600,
+                'Assist' => 550,
             ],
             'allowances' => [200, 500, 700, 1200, 1700, 2200],
                 'Allowance' => [300, 350, 400, 1100, 1200, 1400, 1700],
@@ -34,9 +34,9 @@ ini_set('display_errors', 1);
                         'divisor' => 2.7,
                         'maintanance' => 3.74,
                         'fixcost' => [
-                        'bigtrans' => 2500,
-                        'Driver' => 900,
-                        'Assist' => 700
+                        'bigtrans' => 4200,
+                        'Driver' => 600,
+                        'Assist' => 550
                             ],
                            'allowances' => [200, 500, 700, 1200, 1700, 2200], 
                             'Allowance' => [450, 500, 550, 1500, 1650, 1950, 2450],
@@ -47,9 +47,9 @@ ini_set('display_errors', 1);
                             'divisor' =>2.6,
                             'maintanance' => 3.74,
                             'fixcost' =>[
-                             'bigtrans' => 2500,
-                             'Driver' =>900,
-                             'Assist' =>700
+                             'bigtrans' => 4200,
+                             'Driver' =>600,
+                             'Assist' =>550
                             ],
                             'allowances' =>[200, 500, 700, 1200, 1700, 2200], 
                              'Allowance' =>[400, 450, 500, 1300, 1400, 1600, 1900],
@@ -61,9 +61,9 @@ ini_set('display_errors', 1);
                             'divisor' =>2.6,
                             'maintanance' => 3.74,
                             'fixcost' =>[
-                             'bigtrans' =>2500,
-                             'Driver' =>900,
-                             'Assist' =>700
+                             'bigtrans' =>4200,
+                             'Driver' =>600,
+                             'Assist' =>550
                             ],
                             'allowances' =>[200, 500, 700, 1200, 1700, 2200],
                              'Allowance' =>[600, 650, 700, 1800, 1950, 2250, 2750],
@@ -76,8 +76,8 @@ ini_set('display_errors', 1);
                             'maintanance' => 3.74,
                             'fixcost' =>[
                              'bigtrans' =>2500,
-                             'Driver' =>900,
-                             'Assist' =>700
+                             'Driver' =>600,
+                             'Assist' =>550
                             ],
                             'allowances' =>[200, 500, 700, 1200, 1700, 2200], 
                              'Allowance' =>[450, 500, 550, 1400, 1500, 1700, 2000],
@@ -89,9 +89,9 @@ ini_set('display_errors', 1);
                             'divisor' =>2.6,
                             'maintanance' => 3.74,
                             'fixcost' =>[
-                             'bigtrans' =>2500,
-                             'Driver' =>900,
-                             'Assist' =>700
+                             'bigtrans' =>4200,
+                             'Driver' =>600,
+                             'Assist' =>550
                         ],
                             'allowances' =>[200, 500, 700, 1200, 1700, 2200], 
                              'Allowance' =>[650, 700, 750, 1900, 2050, 2350, 2850],
